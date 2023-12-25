@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site com Barra de Porcentagem</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('https://i.imgur.com/j3S9e0N.jpg'); /* Substitua pelo link direto da sua imagem */
+            background-position: center;
+            background-size: cover;
+        }
+        #title {
+            color: #39ff14; /* Verde neon */
+            font-size: 24px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        #progressBarContainer {
+            display: none;
+            position: relative;
+            margin-bottom: 20px;
+        }
+        #progressBar {
+            width: 300px;
+            height: 30px;
+            border: 2px solid white;
+        }
+        #filler {
+            height: 100%;
+            width: 0;
+            background-color: red; /* Mudança para a cor vermelha */
+            transition: width 0.5s ease-in-out;
+        }
+        #percentageIndicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 16px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+            background-color: #3498db; /* Azul claro, pode alterar a cor conforme necessário */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="title">O quanto eu te amo 💞</div>
+
+    <div id="progressBarContainer">
+        <div id="progressBar">
+            <div id="filler"></div>
+            <div id="percentageIndicator">50%</div>
+        </div>
+    </div>
+
+    <button id="increaseBtn" onclick="increasePercentage()">Aumentar</button>
+    <button id="decreaseBtn" onclick="decreasePercentage()">Diminuir</button>
+
+    <script>
+        // Inicialização da porcentagem a partir do armazenamento local
+        let currentPercentage = parseInt(localStorage.getItem('percentage')) || 50;
+
+        const title = document.getElementById('title');
+        const progressBarContainer = document.getElementById('progressBarContainer');
+        const progressBar = document.getElementById('filler');
+        const percentageIndicator = document.getElementById('percentageIndicator');
+        const increaseBtn = document.getElementById('increaseBtn');
+        const decreaseBtn = document.getElementById('decreaseBtn');
+
+        function updateProgressBar() {
+            progressBar.style.width = `${currentPercentage}%`;
+            percentageIndicator.innerText = `${currentPercentage}%`;
+        }
+
+        function increasePercentage() {
+            if (currentPercentage < 100) {
+                currentPercentage += 1;
+                updateProgressBar();
+                // Salvar no armazenamento local
+                localStorage.setItem('percentage', currentPercentage);
+            }
+        }
+
+        function decreasePercentage() {
+            if (currentPercentage > 0) {
+                currentPercentage -= 1;
+                updateProgressBar();
+                // Salvar no armazenamento local
+                localStorage.setItem('percentage', currentPercentage);
+            }
+        }
+
+        // Exibir a barra de porcentagem mesmo após a mudança de página
+        if (currentPercentage > 0) {
+            title.style.display = 'block';
+            progressBarContainer.style.display = 'block';
+            updateProgressBar();
+        }
+
+        // Exibir botões após a carga da página
+        increaseBtn.style.display = 'inline-block';
+        decreaseBtn.style.display = 'inline-block';
+    </script>
+</body>
+</html>
+
